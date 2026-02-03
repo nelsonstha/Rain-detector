@@ -1,1 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rain Detector – Bagmati Ready 🌧️</title>
+  
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="rain-bg" id="rainBg">
+    <!-- Rain drops will be inserted by JS if needed -->
+  </div>
 
+  <div class="container">
+    <h1>🌧️ Rain Detector</h1>
+
+    <div id="status">Detecting your weather...</div>
+    <div id="chance"></div>
+    <div id="details"></div>
+    <div id="loading" class="loading">Fetching...</div>
+
+    <div class="input-group">
+      <input type="text" id="city" placeholder="City fallback (e.g. Kathmandu)" value="Kathmandu" />
+      <button onclick="checkWeather()">Refresh</button>
+    </div>
+
+    <div class="sound-toggle">
+      <input type="checkbox" id="soundToggle" checked />
+      <label for="soundToggle">Play rain sound when raining</label>
+    </div>
+  </div>
+
+  <!-- Optional: add your own rain sound file -->
+  <audio id="rainSound" loop preload="auto">
+    <source src="https://assets.codepen.io/243235/rain-loop.mp3" type="audio/mpeg">
+    <!-- OR local: <source src="assets/rain-loop.mp3" type="audio/mpeg"> -->
+    Your browser does not support the audio element.
+  </audio>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

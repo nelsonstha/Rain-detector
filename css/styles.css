@@ -1,0 +1,151 @@
+ :root {
+  --bg-day: linear-gradient(135deg, #89f7fe, #66a6ff);
+  --bg-rain: linear-gradient(135deg, #2c3e50, #1a2634);
+  --glass: rgba(255, 255, 255, 0.13);
+  --glass-border: rgba(255, 255, 255, 0.18);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: system-ui, -apple-system, sans-serif;
+  background: var(--bg-day);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 1.2s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.rain-bg {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(
+    transparent 0%,
+    rgba(255,255,255,0.04) 1%,
+    transparent 2%
+  );
+  animation: rainfall 18s linear infinite;
+  opacity: 0;
+  transition: opacity 1.5s ease;
+}
+
+.rain-bg.active {
+  opacity: 0.7;
+}
+
+@keyframes rainfall {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+.container {
+  background: var(--glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  width: 90%;
+  max-width: 460px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  text-align: center;
+  z-index: 10;
+}
+
+h1 {
+  font-size: 2.6rem;
+  margin-bottom: 1.4rem;
+  text-shadow: 0 3px 12px rgba(0,0,0,0.5);
+}
+
+#status {
+  font-size: 3.8rem;
+  font-weight: 700;
+  min-height: 80px;
+  margin: 0.8rem 0;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.6);
+}
+
+#chance {
+  font-size: 1.9rem;
+  margin: 0.6rem 0;
+}
+
+#details {
+  font-size: 1.2rem;
+  opacity: 0.9;
+  margin: 1rem 0;
+}
+
+#loading {
+  font-size: 1.3rem;
+  margin: 1.2rem 0;
+  min-height: 1.6rem;
+}
+
+.input-group {
+  display: flex;
+  gap: 12px;
+  margin: 1.6rem 0;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+input {
+  padding: 12px 18px;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 50px;
+  background: rgba(255,255,255,0.22);
+  color: white;
+  outline: none;
+  width: 240px;
+}
+
+input::placeholder {
+  color: rgba(255,255,255,0.65);
+}
+
+button {
+  padding: 12px 26px;
+  font-size: 1.05rem;
+  border: none;
+  border-radius: 50px;
+  background: #0069ff;
+  color: white;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+button:hover {
+  background: #0055dd;
+  transform: scale(1.04);
+}
+
+.sound-toggle {
+  margin-top: 1.4rem;
+  font-size: 1.05rem;
+  opacity: 0.9;
+}
+
+.sound-toggle input {
+  width: auto;
+  margin-right: 10px;
+  transform: scale(1.2);
+}
+
+@media (max-width: 500px) {
+  h1 { font-size: 2.2rem; }
+  #status { font-size: 3rem; }
+  .input-group { flex-direction: column; }
+  input { width: 100%; max-width: 320px; }
+}
