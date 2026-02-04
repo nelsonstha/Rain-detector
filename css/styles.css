@@ -1,151 +1,149 @@
- :root {
-  --bg-day: linear-gradient(135deg, #89f7fe, #66a6ff);
-  --bg-rain: linear-gradient(135deg, #2c3e50, #1a2634);
-  --glass: rgba(255, 255, 255, 0.13);
-  --glass-border: rgba(255, 255, 255, 0.18);
-}
-
-* {
+ * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
 body {
-  font-family: system-ui, -apple-system, sans-serif;
-  background: var(--bg-day);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f0f4f8;
+}
+
+header {
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
   color: white;
-  min-height: 100vh;
+  padding: 1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+nav {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  justify-content: center;
-  transition: background 1.2s ease;
-  overflow: hidden;
-  position: relative;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
 }
 
-.rain-bg {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background: repeating-linear-gradient(
-    transparent 0%,
-    rgba(255,255,255,0.04) 1%,
-    transparent 2%
-  );
-  animation: rainfall 18s linear infinite;
-  opacity: 0;
-  transition: opacity 1.5s ease;
+.logo {
+  font-size: 1.8rem;
+  font-weight: bold;
 }
 
-.rain-bg.active {
-  opacity: 0.7;
-}
-
-@keyframes rainfall {
-  0% { transform: translateY(-100vh); }
-  100% { transform: translateY(100vh); }
-}
-
-.container {
-  background: var(--glass);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid var(--glass-border);
-  border-radius: 24px;
-  padding: 2.5rem 2rem;
-  width: 90%;
-  max-width: 460px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.35);
-  text-align: center;
-  z-index: 10;
-}
-
-h1 {
-  font-size: 2.6rem;
-  margin-bottom: 1.4rem;
-  text-shadow: 0 3px 12px rgba(0,0,0,0.5);
-}
-
-#status {
-  font-size: 3.8rem;
-  font-weight: 700;
-  min-height: 80px;
-  margin: 0.8rem 0;
-  text-shadow: 0 3px 10px rgba(0,0,0,0.6);
-}
-
-#chance {
-  font-size: 1.9rem;
-  margin: 0.6rem 0;
-}
-
-#details {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin: 1rem 0;
-}
-
-#loading {
-  font-size: 1.3rem;
-  margin: 1.2rem 0;
-  min-height: 1.6rem;
-}
-
-.input-group {
+.nav-links {
   display: flex;
-  gap: 12px;
-  margin: 1.6rem 0;
-  justify-content: center;
-  flex-wrap: wrap;
+  gap: 2rem;
 }
 
-input {
-  padding: 12px 18px;
-  font-size: 1.05rem;
-  border: none;
-  border-radius: 50px;
-  background: rgba(255,255,255,0.22);
+.nav-links a {
   color: white;
-  outline: none;
-  width: 240px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s;
 }
 
-input::placeholder {
-  color: rgba(255,255,255,0.65);
+.nav-links a:hover {
+  color: #a3d8ff;
 }
 
-button {
-  padding: 12px 26px;
-  font-size: 1.05rem;
-  border: none;
-  border-radius: 50px;
-  background: #0069ff;
+main {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 0 2rem;
+}
+
+.hero {
+  text-align: center;
+  padding: 4rem 1rem 5rem;
+  background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('../images/rain-drop-icon.png') center/cover no-repeat;
   color: white;
-  cursor: pointer;
+  border-radius: 12px;
+  margin-bottom: 3rem;
+}
+
+.hero h1 {
+  font-size: 3.2rem;
+  margin-bottom: 1rem;
+}
+
+section {
+  background: white;
+  padding: 2.5rem;
+  border-radius: 12px;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+h2 {
+  color: #1e3c72;
+  margin-bottom: 1.2rem;
+  border-bottom: 3px solid #a3d8ff;
+  padding-bottom: 0.6rem;
+}
+
+footer {
+  background: #1e3c72;
+  color: white;
+  text-align: center;
+  padding: 2rem;
+  margin-top: 3rem;
+}
+
+.btn {
+  display: inline-block;
+  background: #2a5298;
+  color: white;
+  padding: 0.8rem 1.6rem;
+  border-radius: 6px;
+  text-decoration: none;
+  margin-top: 1rem;
+  font-weight: bold;
   transition: all 0.3s;
 }
 
-button:hover {
-  background: #0055dd;
-  transform: scale(1.04);
+.btn:hover {
+  background: #1e3c72;
+  transform: translateY(-2px);
 }
 
-.sound-toggle {
-  margin-top: 1.4rem;
-  font-size: 1.05rem;
-  opacity: 0.9;
+/* Quiz styles */
+.quiz-container {
+  max-width: 700px;
+  margin: 0 auto;
 }
 
-.sound-toggle input {
-  width: auto;
-  margin-right: 10px;
-  transform: scale(1.2);
+.question {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: #f8f9fa;
+  border-radius: 10px;
 }
 
-@media (max-width: 500px) {
-  h1 { font-size: 2.2rem; }
-  #status { font-size: 3rem; }
-  .input-group { flex-direction: column; }
-  input { width: 100%; max-width: 320px; }
+.options label {
+  display: block;
+  margin: 0.8rem 0;
+  padding: 0.8rem;
+  background: #e9ecef;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.options input:checked + label {
+  background: #a3d8ff;
+  font-weight: bold;
+}
+
+#result {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-top: 2rem;
+  text-align: center;
+  padding: 1.5rem;
+  border-radius: 10px;
 }
