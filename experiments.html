@@ -1,76 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rain Detector Experiment – Build It Yourself</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Experiments - Homemade Rain Detector</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home (Weather)</a>
-    <a href="science.html">Science Behind It</a>
-    <a href="experiment.html">Experiment / Build</a>
-    <a href="gallery.html">Gallery</a>
-  </nav>
+    <header>
+        <h1>Experiments with the Rain Detector</h1>
+        <p>Fun and educational experiments you can demonstrate at the science fair</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="how-it-works.html">How It Works</a></li>
+            <li><a href="materials.html">Materials</a></li>
+            <li><a href="build-guide.html">Build Guide</a></li>
+            <li><a href="science.html">Science</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="applications.html">Applications</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+        </ul>
+    </nav>
 
-  <div class="container">
-    <h1>🛠️ Rain Detector Experiment</h1>
-    <p>Build a simple rain/water detector at home – perfect for school science projects, Inspire Award, or exhibitions.</p>
+    <main>
+        <h2>Interesting Experiments to Try</h2>
 
-    <h2>Version 1: Super Simple (No Arduino – Transistor Based)</h2>
-    <p>Components:</p>
-    <ul>
-      <li>BC547 or any NPN transistor (×2)</li>
-      <li>1kΩ & 10kΩ resistors</li>
-      <li>Buzzer or LED + 220Ω resistor</li>
-      <li>9V battery</li>
-      <li>Rain sensor: two bare wires / copper strips 2–3 mm apart on plastic</li>
-    </ul>
+        <div style="margin: 25px 0;">
+            <h3>1. Different Liquids Test</h3>
+            <p>Test how well the detector works with different liquids:</p>
+            <ul>
+                <li>Tap water (should work well)</li>
+                <li>Distilled water (very weak or no reaction)</li>
+                <li>Salt water (stronger reaction)</li>
+                <li>Sugar water</li>
+                <li>Lemon juice</li>
+                <li>Alcohol / sanitizer</li>
+            </ul>
+            <p><strong>Question to investigate:</strong> How does conductivity affect the buzzer sound?</p>
+        </div>
 
-    <p>How it works: Rain bridges the wires → reduces resistance → transistor switches ON → buzzer sounds.</p>
+        <div style="margin: 25px 0;">
+            <h3>2. Sensitivity Distance Test</h3>
+            <p>Change the gap between the two metal blades (1 mm, 3 mm, 5 mm, 10 mm) and spray the same amount of water.</p>
+            <p>Measure: How wide can the gap be before the detector stops working reliably?</p>
+        </div>
 
-    <h2>Version 2: Arduino Powered (More Reliable)</h2>
-    <p>Components:</p>
-    <ul>
-      <li>Arduino Uno / Nano</li>
-      <li>Rain sensor module (FC-37 or similar)</li>
-      <li>Buzzer / LED</li>
-      <li>Jumper wires</li>
-    </ul>
+        <div style="margin: 25px 0;">
+            <h3>3. Water Quantity / Droplet Test</h3>
+            <p>Use a dropper or spray bottle:</p>
+            <ul>
+                <li>1 drop</li>
+                <li>3 drops</li>
+                <li>Continuous spray</li>
+            </ul>
+            <p>Observe how the buzzer behaves (continuous sound vs. intermittent).</p>
+        </div>
 
-    <p>Connections:</p>
-    <ul>
-      <li>Sensor VCC → Arduino 5V</li>
-      <li>Sensor GND → GND</li>
-      <li>Sensor DO → Digital pin 8</li>
-      <li>Buzzer + → pin 9, – → GND</li>
-    </ul>
-
-    <p>Sample Arduino Code Snippet:</p>
-    <pre style="background:rgba(0,0,0,0.4); padding:1rem; border-radius:10px; text-align:left; overflow-x:auto;">
-const int sensorPin = 8;
-const int buzzerPin = 9;
-
-void setup() {
-  pinMode(sensorPin, INPUT);
-  pinMode(buzzerPin, OUTPUT);
-  Serial.begin(9600);
-}
-
-void loop() {
-  int rain = digitalRead(sensorPin);
-  if (rain == LOW) {  // Rain detected (LOW on most modules)
-    digitalWrite(buzzerPin, HIGH);
-    Serial.println("RAIN DETECTED!");
-  } else {
-    digitalWrite(buzzerPin, LOW);
-  }
-  delay(200);
-}
-    </pre>
-
-    <p>Try it during monsoon in Bagmati Province – alert for drying clothes!</p>
-  </div>
-</body>
-</html>
+        <div style="margin: 25px 0;">
+            <h3>4. Add an LED Indicator

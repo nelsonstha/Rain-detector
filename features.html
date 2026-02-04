@@ -1,87 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Rain Detector – Key Features</title>
-  <link rel="stylesheet" href="css/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Features - Homemade Rain Detector</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <nav>
-    <a href="index.html">Home (Weather)</a>
-    <a href="science.html">Science Behind It</a>
-    <a href="experiment.html">Experiment / Build</a>
-    <a href="gallery.html">Gallery</a>
-    <a href="feature.html">Features</a>
-  </nav>
-
-  <div class="container">
-    <h1>✨ Key Features of Rain Detector</h1>
-
-    <p>Here are the main features that make this rain detection project special — both the online weather version and the hardware experiment version.</p>
-
-    <div style="margin: 2.5rem 0;"></div>
-
-    <h2>1. Real-Time Weather Rain Forecast (Web Version)</h2>
-    <ul>
-      <li>Uses <strong>Open-Meteo</strong> — completely free, no API key needed</li>
-      <li>Automatic location detection using browser geolocation</li>
-      <li>Fallback to manual city input (default: Kathmandu)</li>
-      <li>Shows precipitation probability for the next hour + daily maximum</li>
-      <li>Current temperature display</li>
-      <li>Auto-refresh every 15 minutes</li>
-      <li>Beautiful animated rain background when rain is very likely</li>
-      <li>Optional rain sound effect (toggle on/off)</li>
-    </ul>
-
-    <h2>2. Visual & Audio Alerts</h2>
-    <ul>
-      <li>Clear status messages with large emojis (☀️ / ☂️ / 🌧️)</li>
-      <li>Color changes based on rain probability (blue for high chance)</li>
-      <li>Glassmorphism modern design with blur effect</li>
-      <li>Animated falling rain background when rain chance is high</li>
-      <li>Optional looped rain sound when raining (can be disabled)</li>
-    </ul>
-
-    <h2>3. Hardware / Experiment Features (Build Your Own)</h2>
-    <ul>
-      <li>Two build options: simple transistor version and Arduino version</li>
-      <li>Very low-cost components (can be made under NPR 500–1000)</li>
-      <li>Works during sudden monsoon rain in Nepal</li>
-      <li>Can trigger buzzer, LED, relay, or even send notification</li>
-      <li>Suitable for school science projects, exhibitions, Inspire Award</li>
-      <li>Teaches real electronics & programming concepts</li>
-    </ul>
-
-    <h2>4. Educational & Practical Value</h2>
-    <ul>
-      <li>Teaches about weather APIs and how forecasts are made</li>
-      <li>Explains electrical conductivity of rainwater</li>
-      <li>Shows difference between weather forecast and actual sensor detection</li>
-      <li>Useful applications in daily life:
-        <ul style="margin-left: 2rem; opacity: 0.9;">
-          <li>Drying clothes outside</li>
-          <li>Protecting books / electronics from rain</li>
-          <li>Automatic window / awning control</li>
-          <li>Rainwater harvesting alerts</li>
+    <header>
+        <h1>Features of Our Rain Detector</h1>
+        <p>What makes this simple homemade device special</p>
+    </header>
+    
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="how-it-works.html">How It Works</a></li>
+            <li><a href="materials.html">Materials</a></li>
+            <li><a href="build-guide.html">Build Guide</a></li>
+            <li><a href="science.html">Science</a></li>
+            <li><a href="experiments.html">Experiments</a></li>
+            <li><a href="features.html">Features</a></li>
+            <li><a href="applications.html">Applications</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
         </ul>
-      </li>
-    </ul>
+    </nav>
 
-    <h2>5. Future Expansion Possibilities</h2>
-    <ul>
-      <li>Connect real rain sensor to website (Arduino + ESP8266/ESP32)</li>
-      <li>Hourly rain probability chart</li>
-      <li>Multiple city / location saving</li>
-      <li>Mobile app version (PWA)</li>
-      <li>Push notifications when rain starts</li>
-      <li>Integration with smart home devices</li>
-    </ul>
+    <main>
+        <h2>Main Features & Advantages</h2>
 
-    <p style="margin-top: 2.5rem; font-size: 1.1rem;">
-      This project combines <strong>real-world weather data</strong>, <strong>modern web design</strong>, 
-      <strong>electronics</strong>, and <strong>practical use</strong> — perfect for learning and real-life help during monsoon season!
-    </p>
-  </div>
+        <ul style="font-size: 1.1em; line-height: 1.6;">
+            <li><strong>Very low cost</strong> – total cost under NPR 300–500</li>
+            <li><strong>Simple circuit</strong> – only 1 transistor, few resistors, no microcontroller needed</li>
+            <li><strong>Instant response</strong> – buzzer sounds immediately when water touches sensor</li>
+            <li><strong>Easy to build</strong> – can be completed in 30–60 minutes on a breadboard</li>
+            <li><strong>Educational value</strong> – clearly demonstrates conductivity, transistors, and amplification</li>
+            <li><strong>Customizable sensor</strong> – can use different blade spacing or materials</li>
+            <li><strong>Expandable</strong> – can add LED, relay, timer, solar power, Arduino, etc.</li>
+            <li><strong>No complex programming</strong> – 100% analog electronics</li>
+            <li><strong>Visible & audible alert</strong> – good for science fair demonstration</li>
+            <li><strong>Real-world relevance</strong> – principle used in actual rain sensors & automatic wipers</li>
+        </ul>
+
+        <h2 style="margin-top: 40px;">Limitations (Honest Science Fair Point)</h2>
+        <ul style="color: #555;">
+            <li>Sensitive to very dirty / salty water (may give false alarms)</li>
+            <li>Does not distinguish between rain, dew, or someone spraying water</li>
+            <li>Basic version has no adjustable sensitivity</li>
+            <li>Buzzer is loud – good for demo, but might need volume control for home use</li>
+        </ul>
+
+        <img src="images/rain_detector_features.jpg" alt="Homemade rain detector showing key parts">
+    </main>
+
+    <footer>
+        <p>© 2026 Homemade Rain Detector Project</p>
+    </footer>
 </body>
 </html>
