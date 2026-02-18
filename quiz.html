@@ -1,69 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz - Homemade Rain Detector</title>
-    <link rel="stylesheet" href="css/styles.css">
-    <script src="js/script.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Genetic Disorders Quiz</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .option:hover { background-color: #dbeafe; transform: translateX(4px); }
+    .correct { background-color: #d1fae5 !important; border-color: #10b981; }
+    .wrong   { background-color: #fee2e2 !important; border-color: #ef4444; }
+  </style>
 </head>
-<body>
-    <header>
-        <h1>Rain Detector Quiz</h1>
-        <p>Test your knowledge on rain detectors and related science!</p>
-    </header>
-    <nav>
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
-            <li><a href="how-it-works.html">How It Works</a></li>
-            <li><a href="materials.html">Materials</a></li>
-            <li><a href="build-guide.html">Build Guide</a></li>
-            <li><a href="science.html">Science Behind</a></li>
-            <li><a href="applications.html">Applications</a></li>
-            <li><a href="quiz.html">Quiz</a></li>
-        </ul>
-    </nav>
-    <main>
-        <div id="quiz">
-            <form id="quiz-form">
-                <div class="question">
-                    <p>1. What makes water conductive?</p>
-                    <label><input type="radio" name="q1" value="a"> Sugar</label><br>
-                    <label><input type="radio" name="q1" value="b"> Ions</label><br>
-                    <label><input type="radio" name="q1" value="c"> Oil</label>
-                </div>
-                <div class="question">
-                    <p>2. What component sounds the alarm?</p>
-                    <label><input type="radio" name="q2" value="a"> Buzzer</label><br>
-                    <label><input type="radio" name="q2" value="b"> LED</label><br>
-                    <label><input type="radio" name="q2" value="c"> Motor</label>
-                </div>
-                <div class="question">
-                    <p>3. What role does the transistor play?</p>
-                    <label><input type="radio" name="q3" value="a"> Power source</label><br>
-                    <label><input type="radio" name="q3" value="b"> Sensor</label><br>
-                    <label><input type="radio" name="q3" value="c"> Switch/Amplifier</label>
-                </div>
-                <div class="question">
-                    <p>4. When does the buzzer sound?</p>
-                    <label><input type="radio" name="q4" value="a"> When dry</label><br>
-                    <label><input type="radio" name="q4" value="b"> When wet</label><br>
-                    <label><input type="radio" name="q4" value="c"> Always</label>
-                </div>
-                <div class="question">
-                    <p>5. One application is:</p>
-                    <label><input type="radio" name="q5" value="a"> Irrigation systems</label><br>
-                    <label><input type="radio" name="q5" value="b"> Cooking</label><br>
-                    <label><input type="radio" name="q5" value="c"> Gaming</label>
-                </div>
-                <button type="submit">Submit Quiz</button>
-            </form>
-            <div id="result"></div>
-        </div>
-    </main>
-    <footer>
-        <p>&copy; 2026 Homemade Rain Detector Project</p>
-    </footer>
-</body>
-</html>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
+
+<div class="max-w-2xl w-full bg-white rounded-2xl shadow-xl p-8">
+
+  <div id="progress" class="w-full bg-gray-200 rounded-full h-2.5 mb-8">
+    <div id="progress-bar" class="bg-blue-600 h-2.5 rounded-full w-0 transition-all duration-500"></div>
+  </div>
+
+  <h2 id="question" class="text-2xl font-bold mb-8 text-center text-gray-800"></h2>
+
+  <div id="options" class="space-y-4"></div>
+
+  <div class="mt-10 flex justify-between items-center">
+    <button id="prev" class="px-6 py-3 bg-gray-200 rounded-lg font-medium hover:bg-gray-300 disabled:opacity-40" disabled>Previous</button>
+    <div id="counter" class="text-lg font-medium text-gray-600">Question <span id="current">1</span> of <span id="total">10</span></div>
+    <button id="next" class="px-8 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700">Next</button>
+  </div>
+
+  <div id="result" class="hidden mt-10 text-center">
+    <h3 class="text-3xl font-bold mb-4">Your Score</h3>
+    <p class="text-5xl font-black text-blue-600 mb-6"><span id="score">0</span>/<span id="max-score">0</span></p>
+    <button id="restart" class="px-10 py-4 bg-green-600 text-white rounded-xl text-lg font-semibold hover:bg-green-700">Play Again</button>
+  </div>
+
+</div>
+
+<script>
+const quizData = [
+  {
+    question: "Which genetic disorder is caused by an extra copy of chromosome 21?",
+    options: ["Turner syndrome", "Klinefelter syndrome", "Down syndrome", "Cri du chat syndrome"],
+    correct: 2
+  },
+  {
+    question: "Cystic fibrosis is inherited in which pattern?",
+    options: ["Autosomal dominant", "X-linked recessive", "Autosomal recessive", "Mitochondrial"],
+    correct: 2
+  },
+  {
+    question: "The most common mutation causing cystic fibrosis is called:",
+    options: ["ΔF508", "G551D", "R117H", "W1282X"],
+    correct: 0
+  },
+  {
+    question: "Sickle cell disease is caused by a mutation in which gene?",
+    options: ["CFTR", "HBB", "DMD", "FBN1"],
+    correct: 1
+  },
+  {
+    question: "Huntington’s disease is caused by expanded repeats of which sequence?",
+    options: ["CAG", "CGG", "CTG", "GAA"],
+    correct: 0
+  }
+  // Add 5–15 more questions...
+];
+
+let currentQuestion = 0;
+let score = 0;
+let selected = null;
+
+const questionEl   = document.getElementById("question");
+const optionsEl    = document.getElementById("options");
+const prevBtn      = document.getElementById("prev");
+const nextBtn      = document.getElementById("next");
+const counterEl    = document.getElementById("current");
+const totalEl      = document.getElementById("total");
+const progressBar  = document.getElementById("progress-bar");
+const resultScreen = document.getElementById("result");
+const scoreEl      = document.getElementById("score");
+const maxScoreEl   = document.getElementById("max-score");
+
+function loadQuestion() {
+  const q = quizData[currentQuestion];
+  questionEl.textContent = q.question;
+  optionsEl.innerHTML = "";
+
+  q.options.forEach((opt, i) => {
+    const div = document.createElement("div");
+    div.className = "p-5 border-2 border-gray-200 rounded-xl cursor-pointer transition-all option text-lg";
+    div.textContent = opt;
+    div.onclick = () => selectOption(i, div);
+    optionsEl.appendChild(div);
+  });
+
+  selected = null;
+  nextBtn.textContent = currentQuestion === quizData.length - 1 ? "Finish" : "Next";
+  nextBtn.disabled = true;
+  updateUI();
+}
+
+function selectOption(index, element) {
+  if (selected !== null) return;
+
+  selected = index;
+
+  // Highlight selected
+  [...optionsEl.children].forEach(el => el.classList.remove("border-blue-500", "bg-blue-50"));
+  element.classList.add("border-blue-500", "bg-blue-50");
+
+  nextBtn.disabled = false;
+
+  // Show correct/wrong after selection (classic style)
+  const correctIdx = quizData[currentQuestion].correct;
+  [...optionsEl.children].forEach((el, i) => {
+    if (i === correctIdx)      el.classList.add("correct");
+    if (i === selected && i !== correctIdx) el.classList.add("wrong");
+  });
+
+  if (index === correctIdx) score++;
+}
+
+function updateUI() {
+  const progress = ((currentQuestion + 1) / quizData.length) * 100;
+  progressBar.style.width = progress + "%";
+  counterEl.textContent = currentQuestion + 1;
+  totalEl.textContent = quizData.length;
+  prevBtn.disabled = currentQuestion === 0;
+}
+
+prevBtn.onclick = () => {
+  if (currentQuestion > 0) {
+    currentQuestion--;
+    loadQuestion();
+  }
+};
+
+nextBtn.onclick = () => {
+  if (currentQuestion < quizData.length - 1) {
+    currentQuestion++;
+    loadQuestion();
+  } else {
+    // Show result
+    document.getElementById("question").parentElement.classList.add("hidden");
+    resultScreen.classList.remove("hidden");
+    scoreEl.textContent =
