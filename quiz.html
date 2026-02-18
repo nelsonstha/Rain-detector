@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>GeneWise Quiz – Genetic Disorders</title>
+  <title>DIY Rain Detector Quiz</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     .option {
-      transition: all 0.2s;
+      transition: all 0.25s;
     }
     .option:hover {
-      background-color: #eff6ff;
+      background-color: #e0f2fe;
       border-color: #60a5fa;
+      transform: translateX(4px);
     }
     .selected {
-      background-color: #dbeafe !important;
+      background-color: #bfdbfe !important;
       border-color: #3b82f6 !important;
       font-weight: 600;
     }
@@ -28,155 +29,188 @@
     }
   </style>
 </head>
-<body class="bg-slate-50 min-h-screen flex items-center justify-center p-6">
+<body class="bg-gradient-to-br from-blue-50 to-cyan-50 min-h-screen flex items-center justify-center p-6">
 
-  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-xl p-8 md:p-10">
+  <div class="w-full max-w-2xl bg-white rounded-2xl shadow-2xl p-8 md:p-10 border-t-4 border-blue-500">
 
-    <!-- Progress -->
+    <!-- Progress bar -->
     <div class="mb-8">
-      <div class="w-full bg-gray-200 rounded-full h-2.5">
-        <div id="progress" class="bg-blue-600 h-2.5 rounded-full w-0 transition-all duration-500"></div>
+      <div class="w-full bg-gray-200 rounded-full h-3">
+        <div id="progress" class="bg-blue-500 h-3 rounded-full w-0 transition-all duration-600"></div>
       </div>
-      <div class="text-center text-sm text-gray-500 mt-2">
-        Question <span id="q-number">1</span> of <span id="q-total">0</span>
+      <div class="text-center text-sm text-gray-600 mt-3 font-medium">
+        Question <span id="qnum">1</span> / <span id="qtotal">0</span>
       </div>
     </div>
 
-    <!-- Question -->
-    <h2 id="question-text" class="text-2xl md:text-3xl font-bold text-gray-800 mb-8 text-center leading-tight"></h2>
+    <h2 id="question" class="text-2xl md:text-3xl font-bold text-gray-800 mb-10 text-center leading-tight"></h2>
 
-    <!-- Options -->
-    <div id="options-container" class="space-y-4 mb-10"></div>
+    <div id="options" class="space-y-4 mb-12"></div>
 
-    <!-- Feedback + button area -->
     <div class="text-center">
-      <div id="feedback" class="text-lg font-medium min-h-[1.5rem] mb-6"></div>
-      <button id="action-btn"
-              class="px-10 py-4 bg-blue-600 text-white font-semibold rounded-xl text-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition">
-        Select an answer to continue
+      <div id="feedback" class="text-lg font-semibold min-h-[2rem] mb-6"></div>
+      <button id="btn"
+        class="px-10 py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-xl text-lg disabled:bg-gray-400 disabled:cursor-not-allowed transition shadow-md">
+        Choose an answer first
       </button>
     </div>
 
-    <!-- Result screen (hidden at start) -->
-    <div id="result-screen" class="hidden text-center">
+    <!-- Result screen -->
+    <div id="result" class="hidden text-center mt-6">
       <h3 class="text-4xl font-bold text-gray-800 mb-6">Quiz Complete!</h3>
-      <p class="text-6xl font-black text-blue-600 mb-4">
-        <span id="final-score">0</span> / <span id="final-total">0</span>
-      </p>
-      <p class="text-xl text-gray-600 mb-10">Correct answers</p>
-      <button id="restart-btn"
-              class="px-12 py-5 bg-green-600 text-white font-semibold rounded-xl text-xl hover:bg-green-700 transition">
-        Play Again
+      <div class="text-6xl font-black text-blue-600 mb-4">
+        <span id="score">0</span> / <span id="total">0</span>
+      </div>
+      <p class="text-xl text-gray-600 mb-10">correct answers</p>
+      <button id="restart"
+        class="px-12 py-5 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-xl text-xl transition shadow-lg">
+        Try Again
       </button>
     </div>
 
   </div>
 
   <script>
-    const quiz = [
+    const questions = [
       {
-        question: "Which condition is caused by an extra copy of chromosome 21?",
-        options: ["Turner syndrome", "Klinefelter syndrome", "Down syndrome", "Cri du chat"],
-        correct: 2
-      },
-      {
-        question: "Cystic fibrosis follows which inheritance pattern?",
-        options: ["Autosomal dominant", "X-linked recessive", "Autosomal recessive", "Mitochondrial"],
-        correct: 2
-      },
-      {
-        question: "The HBB gene mutation is most associated with which disorder?",
-        options: ["Cystic fibrosis", "Sickle cell disease", "Huntington disease", "Duchenne muscular dystrophy"],
+        q: "What is the most common material used as a rain sensor in a simple DIY rain detector?",
+        options: [
+          "Aluminum foil",
+          "Two metal wires / nails placed close together",
+          "A small magnet",
+          "A piece of cloth"
+        ],
         correct: 1
       },
       {
-        question: "Huntington disease is caused by expanded repeats of which trinucleotide?",
-        options: ["CAG", "CTG", "CGG", "GAA"],
+        q: "When rain falls on the sensor, what usually happens in the simplest circuit?",
+        options: [
+          "The resistance between two points decreases significantly",
+          "The voltage suddenly increases",
+          "The LED starts blinking very fast",
+          "The buzzer turns off"
+        ],
         correct: 0
       },
       {
-        question: "Which disorder is X-linked and primarily affects muscle function in boys?",
-        options: ["Hemophilia A", "Duchenne muscular dystrophy", "Marfan syndrome", "Phenylketonuria"],
+        q: "Which component is most commonly used to give a visual indication that it is raining?",
+        options: [
+          "Buzzer",
+          "Small DC motor",
+          "LED (light-emitting diode)",
+          "7-segment display"
+        ],
+        correct: 2
+      },
+      {
+        q: "In the most basic version, what kind of power source is usually enough?",
+        options: [
+          "9 V battery",
+          "Two AA batteries (3 V)",
+          "220 V AC directly from wall socket",
+          "Car battery (12 V)"
+        ],
+        correct: 1
+      },
+      {
+        q: "Which of these is NOT usually needed to build a very simple rain detector model?",
+        options: [
+          "Transistor (BC547 / 2N2222 etc.)",
+          "Resistor (10 kΩ or similar)",
+          "Breadboard or soldering iron",
+          "Copper wires or paper clips"
+        ],
+        correct: 0
+      },
+      {
+        q: "Why do we usually put a resistor in series with the LED in this project?",
+        options: [
+          "To make the LED shine brighter",
+          "To limit current so the LED does not burn",
+          "To detect rain faster",
+          "To make sound louder"
+        ],
+        correct: 1
+      },
+      {
+        q: "What happens to the circuit when the sensor becomes completely dry again?",
+        options: [
+          "LED stays ON forever",
+          "LED turns OFF (in the simplest design)",
+          "Buzzer keeps beeping",
+          "Battery drains very quickly"
+        ],
         correct: 1
       }
-      // ← You can add 5–15 more questions here
     ];
 
     let current = 0;
     let score = 0;
-    let selectedAnswer = null;
+    let selected = null;
     let answered = false;
 
-    const qText     = document.getElementById("question-text");
-    const optionsEl = document.getElementById("options-container");
-    const feedback  = document.getElementById("feedback");
-    const btn       = document.getElementById("action-btn");
-    const progress  = document.getElementById("progress");
-    const qNumber   = document.getElementById("q-number");
-    const qTotal    = document.getElementById("q-total");
+    const qEl      = document.getElementById("question");
+    const optEl    = document.getElementById("options");
+    const btn      = document.getElementById("btn");
+    const feedback = document.getElementById("feedback");
+    const progress = document.getElementById("progress");
+    const qnum     = document.getElementById("qnum");
+    const qtotal   = document.getElementById("qtotal");
 
-    const resultScreen = document.getElementById("result-screen");
-    const finalScore   = document.getElementById("final-score");
-    const finalTotal   = document.getElementById("final-total");
-    const restartBtn   = document.getElementById("restart-btn");
+    const resultEl = document.getElementById("result");
+    const scoreEl  = document.getElementById("score");
+    const totalEl  = document.getElementById("total");
+    const restart  = document.getElementById("restart");
 
-    function loadQuestion() {
-      const item = quiz[current];
-      qText.textContent = item.question;
-      qNumber.textContent = current + 1;
-      qTotal.textContent = quiz.length;
+    function load() {
+      const item = questions[current];
+      qEl.textContent = item.q;
+      qnum.textContent = current + 1;
+      qtotal.textContent = questions.length;
+      progress.style.width = ((current + 1) / questions.length * 100) + "%";
 
-      // Progress bar
-      progress.style.width = ((current + 1) / quiz.length) * 100 + "%";
-
-      optionsEl.innerHTML = "";
-      selectedAnswer = null;
+      optEl.innerHTML = "";
+      selected = null;
       answered = false;
+      feedback.textContent = "";
+      btn.disabled = true;
+      btn.textContent = "Choose an answer first";
 
-      item.options.forEach((text, index) => {
+      item.options.forEach((text, i) => {
         const div = document.createElement("div");
         div.className = "p-5 border-2 border-gray-300 rounded-xl cursor-pointer option text-lg";
         div.textContent = text;
-        div.dataset.index = index;
+        div.dataset.idx = i;
 
         div.addEventListener("click", () => {
           if (answered) return;
-
-          // Deselect others
-          [...optionsEl.children].forEach(el => el.classList.remove("selected"));
+          [...optEl.children].forEach(el => el.classList.remove("selected"));
           div.classList.add("selected");
-
-          selectedAnswer = index;
+          selected = i;
           btn.disabled = false;
-          btn.textContent = current === quiz.length - 1 ? "Finish Quiz" : "Next Question";
+          btn.textContent = current === questions.length - 1 ? "Finish Quiz" : "Next →";
         });
 
-        optionsEl.appendChild(div);
+        optEl.appendChild(div);
       });
-
-      feedback.textContent = "";
-      btn.disabled = true;
-      btn.textContent = "Select an answer to continue";
     }
 
-    function showAnswer() {
+    function showResult() {
       answered = true;
-      const correctIdx = quiz[current].correct;
+      const correct = questions[current].correct;
 
-      [...optionsEl.children].forEach(el => {
-        const idx = parseInt(el.dataset.index);
-        if (idx === correctIdx) {
-          el.classList.add("correct");
-        }
-        if (idx === selectedAnswer) {
-          if (idx === correctIdx) {
+      [...optEl.children].forEach(el => {
+        const idx = +el.dataset.idx;
+        if (idx === correct)  el.classList.add("correct");
+        if (idx === selected) {
+          if (idx === correct) {
             score++;
-            feedback.textContent = "Correct! ✓";
-            feedback.className = "text-green-700 font-semibold";
+            feedback.textContent = "Correct!";
+            feedback.className = "text-green-700";
           } else {
             el.classList.add("wrong");
-            feedback.textContent = "Incorrect";
-            feedback.className = "text-red-700 font-semibold";
+            feedback.textContent = "Wrong";
+            feedback.className = "text-red-700";
           }
         }
       });
@@ -186,31 +220,29 @@
 
     btn.addEventListener("click", () => {
       if (!answered) {
-        // First click after selection → show answer
-        showAnswer();
-      } else if (current < quiz.length - 1) {
-        // Already answered → go next
+        showResult();
+      } else if (current < questions.length - 1) {
         current++;
-        loadQuestion();
+        load();
       } else {
-        // Last question answered → show result
-        resultScreen.classList.remove("hidden");
-        document.querySelector("#action-btn").classList.add("hidden");
-        finalScore.textContent = score;
-        finalTotal.textContent = quiz.length;
+        // show final result
+        resultEl.classList.remove("hidden");
+        btn.classList.add("hidden");
+        scoreEl.textContent = score;
+        totalEl.textContent = questions.length;
       }
     });
 
-    restartBtn.addEventListener("click", () => {
+    restart.addEventListener("click", () => {
       current = 0;
       score = 0;
-      resultScreen.classList.add("hidden");
-      document.querySelector("#action-btn").classList.remove("hidden");
-      loadQuestion();
+      resultEl.classList.add("hidden");
+      btn.classList.remove("hidden");
+      load();
     });
 
-    // Start
-    loadQuestion();
+    // Start quiz
+    load();
   </script>
 </body>
 </html>
