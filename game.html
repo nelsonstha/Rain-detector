@@ -1,0 +1,251 @@
+import pygame
+import random
+import sys
+import math
+
+# Initialize Pygame
+pygame.init()
+
+# Constants
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+FPS = 60
+
+# Colors
+BLACK = (0, 0, 0)
+WHITE = (255, 255, 255)
+BLUE = (100, 150, 255)
+DARK_BLUE = (50, 100, 200)
+GREEN = (0, 255, 100)
+RED = (255, 100, 100)
+GRAY = (128, 128, 128)
+YELLOW = (255, 255, 0)
+ORANGE = (255, 165, 0)
+
+# Game setup
+screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+pygame.display.set_caption("🌧️ Rain Detector Challenge 🌧️")
+clock = pygame.time.Clock()
+font = pygame.font.SysFont('Arial', 24, bold=True)
+big_font = pygame.font.SysFont('Arial', 48, bold=True)
+
+class Bucket:
+    def __init__(self):
+        self.x = SCREEN_WIDTH // 2 - 30
+        self.y = SCREEN_HEIGHT - 100
+        self.width = 60
+        self.height = 40
+        self.speed = 8
+        self.shield_active = False
+        self.shield_time = 0
+
+    def move_left(self):
+        self.x = max(0, self.x - self.speed)
+
+    def move_right(self):
+        self.x = min(SCREEN_WIDTH - self.width, self.x + self.speed)
+
+    def draw(self, screen):
+        # Bucket body
+        pygame.draw.rect(screen, GRAY, (self.x, self.y, self.width, self.height))
+        pygame.draw.rect(screen, BLACK, (self.x, self.y, self.width, self.height), 3)
+        # Water level inside (rain collected)
+        water_height = self.height * (rain_level / 100)
+        pygame.draw.rect(screen, BLUE, (self.x + 5, self.y + self.height - water_height - 5, self.width - 10, water_height))
+        
+        # Shield if active
+        if self.shield_active:
+            pygame.draw.circle(screen, YELLOW, (int(self.x + self.width/2), int(self.y + self.height/2)), 50, 5)
+            pygame.draw.circle(screen, ORANGE, (int(self.x + self.width/2), int(self.y + self.height/2)), 45, 5)
+
+class Raindrop:
+    def __init__(self):
+        self.x = random.randint(0, SCREEN_WIDTH)
+        self.y = -20
+        self.size = random.randint(8, 15)
+        self.speed = random.uniform(3, 7)
+        self.heavy = random.random() < 0.2  # 20% heavy rain
+
+    def update(self):
+        self.y += self.speed
+
+    def draw(self, screen):
+        color = DARK_BLUE if self.heavy else BLUE
+        pygame.draw.ellipse(screen, color, (self.x - self.size//2, self.y - self.size//2, self.size, self.size * 2))
+        # Trail
+        pygame.draw.line(screen, color, (self.x, self.y), (self.x, self.y + 10), 2)
+
+    def collides_with(self, bucket):
+        return (bucket.x < self.x < bucket.x + bucket.width and
+                bucket.y < self.y + self.size < bucket.y + bucket.height)
+
+# Game variables
+bucket = Bucket()
+raindrops = []
+rain_level = 0
+score = 0
+high_score = 0
+game_over = False
+rain_intensity = 1.0  # Increases over time
+detector_gauge = 0  # Simulates sensor detection
+shield_cooldown = 0
+
+def reset_game():
+    global raindrops, rain_level, score, rain_intensity, detector_gauge, shield_cooldown, game_over
+    raindrops = []
+    rain_level = 0
+    score = 0
+    rain_intensity = 1.0
+    detector_gauge = 0
+    shield_cooldown = 0
+    game_over = False
+    bucket.shield_active = False
+    bucket.shield_time = 0
+
+# Main game loop
+running = True
+while running:
+    screen.fill((135, 206, 235))  # Sky blue background
+
+    # Clouds for atmosphere
+    for i in range(5):
+        cloud_x = (pygame.time.get_ticks() * 0.05 + i * 200) % (SCREEN_WIDTH + 200) - 100
+        pygame.draw.circle(screen, WHITE, (int(cloud_x), 80 + i*20), 40)
+        pygame.draw.circle(screen, WHITE, (int(cloud_x + 30), 80 + i*20), 50)
+        pygame.draw.circle(screen, WHITE, (int(cloud_x + 60), 80 + i*20), 40)
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+        if event.type == pygame.KEYDOWN:
+            if game_over:
+                if event.key == pygame.K_r:
+                    reset_game()
+                if event.key == pygame.K_q:
+                    running = False
+
+    if not game_over:
+        keys = pygame.key.get_pressed()
+        if keys[pygame.K_a] or keys[pygame.K_LEFT]:
+            bucket.move_left()
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
+            bucket.move_right()
+        if keys[pygame.K_SPACE] and shield_cooldown <= 0:
+            # Activate shield (rain detector super mode!)
+            bucket.shield_active = True
+            bucket.shield_time = 180  # 3 seconds at 60fps
+            shield_cooldown = 600  # 10 sec cooldown
+
+        # Update shield
+        if bucket.shield_active:
+            bucket.shield_time -= 1
+            if bucket.shield_time <= 0:
+                bucket.shield_active = False
+        if shield_cooldown > 0:
+            shield_cooldown -= 1
+
+        # Spawn raindrops based on intensity
+        if random.randint(1, int(20 / rain_intensity)) == 1:
+            raindrops.append(Raindrop())
+
+        # Update raindrops
+        for drop in raindrops[:]:
+            drop.update()
+            if drop.y > SCREEN_HEIGHT:
+                raindrops.remove(drop)
+                rain_level -= 1  # Penalty for miss
+                rain_level = max(0, rain_level)
+            elif drop.collides_with(bucket):
+                if bucket.shield_active:
+                    score += 10  # Bonus with shield
+                else:
+                    score += 5
+                    rain_level += 1
+                raindrops.remove(drop)
+
+                # Detector gauge fills faster with heavy rain
+                if drop.heavy:
+                    detector_gauge = min(100, detector_gauge + 20)
+                    score += 15
+
+        # Increase intensity slowly
+        rain_intensity += 0.0001
+        rain_intensity = min(3.0, rain_intensity)
+
+        # Auto-drain rain level slowly (evaporation)
+        if random.random() < 0.01:
+            rain_level = max(0, rain_level - 1)
+
+        # Detector gauge drains
+        if detector_gauge > 0:
+            detector_gauge -= 0.5
+
+        # Check lose condition: rain_level overflow
+        if rain_level >= 100:
+            game_over = True
+            high_score = max(high_score, score)
+
+    # Draw ground
+    pygame.draw.rect(screen, GREEN, (0, SCREEN_HEIGHT - 50, SCREEN_WIDTH, 50))
+    pygame.draw.rect(screen, (0, 200, 0), (0, SCREEN_HEIGHT - 50, SCREEN_WIDTH, 20))
+
+    # Draw bucket
+    bucket.draw(screen)
+
+    # Draw raindrops
+    for drop in raindrops:
+        drop.draw(screen)
+
+    # HUD
+    score_text = font.render(f"Score: {score}", True, BLACK)
+    screen.blit(score_text, (10, 10))
+
+    level_text = font.render(f"Rain Level: {rain_level}/100", True, BLUE)
+    screen.blit(level_text, (10, 40))
+
+    intensity_text = font.render(f"Intensity: {rain_intensity:.1f}x", True, ORANGE)
+    screen.blit(intensity_text, (10, 70))
+
+    detector_text = font.render(f"Detector: {int(detector_gauge)}%", True, GREEN)
+    screen.blit(detector_text, (SCREEN_WIDTH - 200, 10))
+
+    shield_text = font.render("SHIELD READY" if shield_cooldown <= 0 else f"Shield: {int(shield_cooldown/60)+1}s", True, YELLOW if shield_cooldown <= 0 else GRAY)
+    screen.blit(shield_text, (SCREEN_WIDTH - 200, 40))
+
+    high_score_text = font.render(f"High Score: {high_score}", True, BLACK)
+    screen.blit(high_score_text, (10, SCREEN_HEIGHT - 40))
+
+    # Instructions
+    if game_over:
+        overlay = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
+        overlay.set_alpha(128)
+        overlay.fill(BLACK)
+        screen.blit(overlay, (0, 0))
+
+        game_over_text = big_font.render("RAIN OVERFLOW! 💦", True, RED)
+        go_rect = game_over_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 - 50))
+        screen.blit(game_over_text, go_rect)
+
+        restart_text = font.render("R to Restart | Q to Quit", True, WHITE)
+        r_rect = restart_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 20))
+        screen.blit(restart_text, r_rect)
+
+        # Project tie-in
+        info_text = font.render("Powered by your DIY Rain Detector! 🌧️📡", True, WHITE)
+        i_rect = info_text.get_rect(center=(SCREEN_WIDTH//2, SCREEN_HEIGHT//2 + 60))
+        screen.blit(info_text, i_rect)
+
+    else:
+        # Controls
+        ctrl1 = font.render("A/D or ←/→ : Move Bucket", True, BLACK)
+        screen.blit(ctrl1, (10, SCREEN_HEIGHT - 90))
+        ctrl2 = font.render("SPACE : Activate Detector Shield (once ready)", True, BLACK)
+        screen.blit(ctrl2, (10, SCREEN_HEIGHT - 65))
+        goal_text = font.render("Catch raindrops! Don't let level hit 100!", True, BLACK)
+        screen.blit(goal_text, (10, SCREEN_HEIGHT - 35))
+
+    pygame.display.flip()
+    clock.tick(FPS)
+
+pygame.quit()
+sys.exit()
