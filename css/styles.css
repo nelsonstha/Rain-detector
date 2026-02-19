@@ -1,220 +1,82 @@
-/* ============================================
-   Simple DIY Rain Detector - GitHub Pages Style
-   Clean | Mobile-friendly | Dark/light mode support
-   ============================================ */
+/* Put this in your style.css */
+/* Apply to body or a dedicated .rain-bg layer */
 
-:root {
-  --bg: #f8f9fa;
-  --text: #1a1a1a;
-  --primary: #0066cc;
-  --primary-dark: #004080;
-  --gray: #6c757d;
-  --light-gray: #e9ecef;
-  --rain-blue: #4dabf7;
-  --success: #28a745;
-}
-
-[data-theme="dark"] {
-  --bg: #0f172a;
-  --text: #e2e8f0;
-  --primary: #60a5fa;
-  --primary-dark: #3b82f6;
-  --gray: #94a3b8;
-  --light-gray: #1e293b;
-  --rain-blue: #93c5fd;
-}
-
-/* Reset & Base */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background-color: var(--bg);
-  color: var(--text);
-  line-height: 1.6;
-  min-height: 100vh;
-}
-
-/* Layout */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: 0 20px;
-}
-
-/* Header / Hero */
-header {
-  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
-  color: white;
-  padding: 5rem 0 4rem;
-  text-align: center;
-  margin-bottom: 2.5rem;
-}
-
-header h1 {
-  font-size: 2.8rem;
-  margin-bottom: 0.8rem;
-}
-
-header p {
-  font-size: 1.3rem;
-  opacity: 0.95;
-  max-width: 640px;
-  margin: 0 auto;
-}
-
-/* Rain drop effect (decorative) */
-.rain-drop {
-  position: absolute;
-  width: 12px;
-  height: 20px;
-  background: rgba(255,255,255,0.35);
-  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
-  pointer-events: none;
-  animation: fall linear infinite;
-}
-
-@keyframes fall {
-  to { transform: translateY(120vh) rotate(15deg); }
-}
-
-/* Main content */
-main {
-  padding-bottom: 4rem;
-}
-
-section {
-  margin-bottom: 3.5rem;
-  background: var(--light-gray);
-  padding: 2rem;
-  border-radius: 12px;
-  border: 1px solid rgba(0,0,0,0.06);
-}
-
-[data-theme="dark"] section {
-  border-color: rgba(255,255,255,0.08);
-}
-
-h2 {
-  color: var(--primary);
-  margin-bottom: 1.2rem;
-  font-size: 1.9rem;
-}
-
-h3 {
-  margin: 1.8rem 0 1rem;
-  color: var(--text);
-}
-
-ul, ol {
-  padding-left: 1.8rem;
-  margin-bottom: 1.2rem;
-}
-
-li {
-  margin-bottom: 0.6rem;
-}
-
-/* Code blocks */
-pre {
-  background: #0d1117;
-  color: #c9d1d9;
-  padding: 1.4rem;
-  border-radius: 10px;
-  overflow-x: auto;
-  font-size: 0.95rem;
-  margin: 1.2rem 0;
-  border: 1px solid #30363d;
-}
-
-code {
-  font-family: 'Consolas', 'Monaco', monospace;
-}
-
-/* Images / Diagrams */
-img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin: 1.4rem 0;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.12);
-}
-
-/* Buttons */
-.btn {
-  display: inline-block;
-  background: var(--primary);
-  color: white;
-  padding: 0.8rem 1.6rem;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: 500;
-  margin: 0.6rem 0.4rem 0.6rem 0;
-  transition: all 0.2s;
-}
-
-.btn:hover {
-  background: var(--primary-dark);
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,102,204,0.3);
-}
-
-.btn-outline {
-  background: transparent;
-  border: 2px solid var(--primary);
-  color: var(--primary);
-}
-
-.btn-outline:hover {
-  background: var(--primary);
-  color: white;
-}
-
-/* Footer */
-footer {
-  text-align: center;
-  padding: 3rem 0 2rem;
-  color: var(--gray);
-  font-size: 0.95rem;
-  border-top: 1px solid var(--light-gray);
-}
-
-/* Theme toggle */
-.theme-toggle {
+.rain-bg {
   position: fixed;
-  top: 1.2rem;
-  right: 1.2rem;
-  background: rgba(0,0,0,0.08);
-  border: none;
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  cursor: pointer;
-  font-size: 1.4rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.3s;
-  z-index: 100;
+  inset: 0;
+  background: #0a0f1a;           /* very dark blue-black */
+  overflow: hidden;
+  z-index: -2;
+  pointer-events: none;
 }
 
-[data-theme="dark"] .theme-toggle {
-  background: rgba(255,255,255,0.12);
+/* Rain layers – multiple for depth */
+.rain-layer {
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    135deg,                    /* diagonal rain direction */
+    transparent 0%,
+    transparent 2%,
+    rgba(180, 210, 255, 0.18) 2%,
+    rgba(180, 210, 255, 0.18) 4%
+  );
+  background-size: 100% 180px;   /* controls rain density & length */
+  animation: rain-diagonal 12s linear infinite;
+  opacity: 0.9;
 }
 
-/* Mobile adjustments */
-@media (max-width: 640px) {
-  header {
-    padding: 4rem 0 3rem;
+.rain-layer:nth-child(2) {
+  background-size: 100% 140px;
+  animation-duration: 8s;
+  animation-delay: -2s;
+  opacity: 0.7;
+}
+
+.rain-layer:nth-child(3) {
+  background-size: 100% 220px;
+  animation-duration: 15s;
+  animation-delay: -5s;
+  opacity: 0.5;
+  filter: blur(1px);            /* softer distant rain */
+}
+
+/* Falling animation */
+@keyframes rain-diagonal {
+  0% {
+    background-position: 0 0;
+    transform: translateX(0) translateY(0);
   }
-  header h1 {
-    font-size: 2.3rem;
+  100% {
+    background-position: 0 1200px;
+    transform: translateX(-60px) translateY(800px);  /* diagonal movement */
   }
-  section {
-    padding: 1.5rem;
-  }
+}
+
+/* Optional subtle lightning flash (every ~8-15s) */
+.lightning {
+  position: absolute;
+  inset: 0;
+  background: rgba(220, 240, 255, 0);
+  pointer-events: none;
+  animation: flash 10s infinite;
+  animation-delay: 4s;
+}
+
+@keyframes flash {
+  0%, 90%, 100% { background: rgba(220, 240, 255, 0); }
+  91%  { background: rgba(220, 240, 255, 0.12); }
+  92%  { background: rgba(220, 240, 255, 0.25); }
+  93%  { background: rgba(220, 240, 255, 0.08); }
+  94%, 96% { background: rgba(220, 240, 255, 0); }
+}
+
+/* Overlay to make text readable */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(10,15,26,0.4) 0%, rgba(10,15,26,0.75) 70%);
+  z-index: -1;
+  pointer-events: none;
 }
